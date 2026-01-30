@@ -1,5 +1,4 @@
 ---
-import { Image } from 'astro:assets';
 import { getCollection } from 'astro:content';
 import BaseHead from '../../components/BaseHead.astro';
 import Footer from '../../components/Footer.astro';
@@ -18,70 +17,35 @@ const posts = (await getCollection('blog')).sort(
 		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
 		<style>
 			main {
-				width: 960px;
+				max-width: var(--content-width-wide);
+			}
+			.section-title {
+				margin: 0 0 2.5rem 0;
+				font-family: var(--font-body);
+				font-weight: 600;
+				text-align: center;
 			}
 			ul {
-				display: flex;
-				flex-wrap: wrap;
-				gap: 2rem;
+				display: grid;
+				grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+				gap: 1.5rem;
 				list-style-type: none;
 				margin: 0;
 				padding: 0;
 			}
 			ul li {
-				width: calc(50% - 1rem);
-			}
-			ul li * {
-				text-decoration: none;
-				transition: 0.2s ease;
-			}
-			ul li:first-child {
 				width: 100%;
-				margin-bottom: 1rem;
-				text-align: center;
-			}
-			ul li:first-child img {
-				width: 100%;
-			}
-			ul li:first-child .title {
-				font-size: 2.369rem;
-			}
-			ul li img {
-				margin-bottom: 0.5rem;
-				border-radius: 12px;
 			}
 			ul li a {
 				display: block;
+				color: inherit;
 			}
-			.title {
-				margin: 0;
-				color: rgb(var(--black));
-				line-height: 1;
-			}
-			.date {
-				margin: 0;
-				color: rgb(var(--gray));
-			}
-			ul li a:hover h4,
-			ul li a:hover .date {
-				color: rgb(var(--accent));
-			}
-			ul a:hover img {
-				box-shadow: var(--box-shadow);
+			.article-card .meta {
+				text-transform: none;
 			}
 			@media (max-width: 720px) {
-				ul {
-					gap: 0.5em;
-				}
-				ul li {
-					width: 100%;
-					text-align: center;
-				}
-				ul li:first-child {
-					margin-bottom: 0;
-				}
-				ul li:first-child .title {
-					font-size: 1.563em;
+				.section-title {
+					text-align: left;
 				}
 			}
 		</style>
@@ -90,18 +54,23 @@ const posts = (await getCollection('blog')).sort(
 		<Header />
 		<main>
 			<section>
+				<h1 class="section-title">Index</h1>
 				<ul>
 					{
 						posts.map((post) => (
 							<li>
 								<a href={`/blog/${post.id}/`}>
-									{post.data.heroImage && (
-										<Image width={720} height={360} src={post.data.heroImage} alt="" />
-									)}
-									<h4 class="title">{post.data.title}</h4>
-									<p class="date">
-										<FormattedDate date={post.data.pubDate} />
-									</p>
+									<article class="article-card" style={`--sigil-hue: ${post.data.author?.sigilHue ?? 28}`}>
+										<span class="tag">{post.data.category}</span>
+										<h2 class="article-card-title">{post.data.title}</h2>
+										<p class="article-card-excerpt">{post.data.description}</p>
+										<div class="article-card-meta">
+											<span class="meta">
+												<FormattedDate date={post.data.pubDate} /> · {post.data.readTime}
+											</span>
+											<span class="meta">{post.data.author?.name}</span>
+										</div>
+									</article>
 								</a>
 							</li>
 						))
