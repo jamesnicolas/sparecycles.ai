@@ -1,0 +1,315 @@
+---
+import BaseHead from '../../components/BaseHead.astro';
+---
+<!doctype html>
+<html lang="en">
+<head>
+	<BaseHead title="ASCII 3D Experiment" description="Layered ASCII art" />
+	<style>
+		body {
+			background: #0a0a0a;
+			min-height: 100vh;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			gap: 4rem;
+			padding: 4rem 2rem;
+		}
+
+		.ascii-container {
+			position: relative;
+			font-family: var(--font-mono);
+			font-size: 14px;
+			line-height: 1.2;
+		}
+
+		.ascii-layer {
+			white-space: pre;
+			position: absolute;
+			top: 0;
+			left: 0;
+		}
+
+		.ascii-layer.base {
+			position: relative;
+			color: #d4a574;
+		}
+
+		/* Experiment 1: Shadow depth */
+		.exp-shadow .ascii-layer.shadow-3 {
+			color: #1a1512;
+			transform: translate(6px, 6px);
+		}
+		.exp-shadow .ascii-layer.shadow-2 {
+			color: #2a2520;
+			transform: translate(4px, 4px);
+		}
+		.exp-shadow .ascii-layer.shadow-1 {
+			color: #4a4035;
+			transform: translate(2px, 2px);
+		}
+
+		/* Experiment 2: Chromatic aberration / RGB split */
+		.exp-chromatic .ascii-layer.red {
+			color: #ff6b6b;
+			transform: translate(-2px, 0);
+			mix-blend-mode: screen;
+		}
+		.exp-chromatic .ascii-layer.green {
+			color: #4ecdc4;
+			transform: translate(2px, 0);
+			mix-blend-mode: screen;
+		}
+		.exp-chromatic .ascii-layer.base {
+			color: #ffffff;
+			mix-blend-mode: screen;
+		}
+
+		/* Experiment 3: Glow/bloom */
+		.exp-glow .ascii-layer.blur-3 {
+			color: #d4a574;
+			filter: blur(8px);
+			opacity: 0.3;
+		}
+		.exp-glow .ascii-layer.blur-2 {
+			color: #d4a574;
+			filter: blur(4px);
+			opacity: 0.5;
+		}
+		.exp-glow .ascii-layer.blur-1 {
+			color: #d4a574;
+			filter: blur(2px);
+			opacity: 0.7;
+		}
+		.exp-glow .ascii-layer.base {
+			color: #fff8f0;
+		}
+
+		/* Experiment 4: Parallax layers (different art per layer) */
+		.exp-parallax {
+			font-size: 10px;
+		}
+		.exp-parallax .ascii-layer.far {
+			color: #1a1a1a;
+			transform: scale(0.9) translate(0, 10px);
+		}
+		.exp-parallax .ascii-layer.mid {
+			color: #3a3a3a;
+			transform: scale(0.95) translate(0, 5px);
+		}
+		.exp-parallax .ascii-layer.base {
+			color: #d4a574;
+		}
+
+		/* Experiment 5: Anaglyph 3D */
+		.exp-anaglyph .ascii-layer.cyan {
+			color: #00ffff;
+			transform: translate(-3px, 0);
+			mix-blend-mode: multiply;
+		}
+		.exp-anaglyph .ascii-layer.base {
+			color: #ff0000;
+			mix-blend-mode: multiply;
+		}
+		.exp-anaglyph {
+			background: #ffffff;
+			padding: 2rem;
+			border-radius: 8px;
+		}
+
+		.label {
+			font-family: var(--font-mono);
+			font-size: 12px;
+			color: #666;
+			text-transform: uppercase;
+			letter-spacing: 0.1em;
+			margin-bottom: 1rem;
+			text-align: center;
+		}
+
+		.experiment {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+		}
+	</style>
+</head>
+<body>
+	<div class="experiment">
+		<div class="label">1. Shadow Depth</div>
+		<div class="ascii-container exp-shadow">
+			<pre class="ascii-layer shadow-3">
+   _____ ____  ___    ____  ______
+  / ___// __ \/   |  / __ \/ ____/
+  \__ \/ /_/ / /| | / /_/ / __/   
+ ___/ / ____/ ___ |/ _, _/ /___   
+/____/_/   /_/  |_/_/ |_/_____/   
+   ______  ________ ___________
+  / ____/ / / ____/ / / ____/ ___/
+ / /   / / / /   / / / __/  \__ \ 
+/ /___/ /_/ /___/ /_/ /___ ___/ / 
+\____/\__, /\____/\____/____/____/  
+     /____/                       
+			</pre>
+			<pre class="ascii-layer shadow-2">
+   _____ ____  ___    ____  ______
+  / ___// __ \/   |  / __ \/ ____/
+  \__ \/ /_/ / /| | / /_/ / __/   
+ ___/ / ____/ ___ |/ _, _/ /___   
+/____/_/   /_/  |_/_/ |_/_____/   
+   ______  ________ ___________
+  / ____/ / / ____/ / / ____/ ___/
+ / /   / / / /   / / / __/  \__ \ 
+/ /___/ /_/ /___/ /_/ /___ ___/ / 
+\____/\__, /\____/\____/____/____/  
+     /____/                       
+			</pre>
+			<pre class="ascii-layer shadow-1">
+   _____ ____  ___    ____  ______
+  / ___// __ \/   |  / __ \/ ____/
+  \__ \/ /_/ / /| | / /_/ / __/   
+ ___/ / ____/ ___ |/ _, _/ /___   
+/____/_/   /_/  |_/_/ |_/_____/   
+   ______  ________ ___________
+  / ____/ / / ____/ / / ____/ ___/
+ / /   / / / /   / / / __/  \__ \ 
+/ /___/ /_/ /___/ /_/ /___ ___/ / 
+\____/\__, /\____/\____/____/____/  
+     /____/                       
+			</pre>
+			<pre class="ascii-layer base">
+   _____ ____  ___    ____  ______
+  / ___// __ \/   |  / __ \/ ____/
+  \__ \/ /_/ / /| | / /_/ / __/   
+ ___/ / ____/ ___ |/ _, _/ /___   
+/____/_/   /_/  |_/_/ |_/_____/   
+   ______  ________ ___________
+  / ____/ / / ____/ / / ____/ ___/
+ / /   / / / /   / / / __/  \__ \ 
+/ /___/ /_/ /___/ /_/ /___ ___/ / 
+\____/\__, /\____/\____/____/____/  
+     /____/                       
+			</pre>
+		</div>
+	</div>
+
+	<div class="experiment">
+		<div class="label">2. Chromatic Aberration</div>
+		<div class="ascii-container exp-chromatic">
+			<pre class="ascii-layer red">
+╔═══════════════════════════════╗
+║  ░▒▓ SPARE CYCLES ▓▒░        ║
+║  human + synthetic minds      ║
+╚═══════════════════════════════╝
+			</pre>
+			<pre class="ascii-layer green">
+╔═══════════════════════════════╗
+║  ░▒▓ SPARE CYCLES ▓▒░        ║
+║  human + synthetic minds      ║
+╚═══════════════════════════════╝
+			</pre>
+			<pre class="ascii-layer base">
+╔═══════════════════════════════╗
+║  ░▒▓ SPARE CYCLES ▓▒░        ║
+║  human + synthetic minds      ║
+╚═══════════════════════════════╝
+			</pre>
+		</div>
+	</div>
+
+	<div class="experiment">
+		<div class="label">3. Glow / Bloom</div>
+		<div class="ascii-container exp-glow">
+			<pre class="ascii-layer blur-3">
+    *    .  *       .             *
+        .    *    .    ╭──────────╮
+   .        *    .     │ ◈ SPARE  │  .
+      .  *      .   *  │  CYCLES  │
+  *      .    .        ╰──────────╯   *
+     .      *     .         .
+			</pre>
+			<pre class="ascii-layer blur-2">
+    *    .  *       .             *
+        .    *    .    ╭──────────╮
+   .        *    .     │ ◈ SPARE  │  .
+      .  *      .   *  │  CYCLES  │
+  *      .    .        ╰──────────╯   *
+     .      *     .         .
+			</pre>
+			<pre class="ascii-layer blur-1">
+    *    .  *       .             *
+        .    *    .    ╭──────────╮
+   .        *    .     │ ◈ SPARE  │  .
+      .  *      .   *  │  CYCLES  │
+  *      .    .        ╰──────────╯   *
+     .      *     .         .
+			</pre>
+			<pre class="ascii-layer base">
+    *    .  *       .             *
+        .    *    .    ╭──────────╮
+   .        *    .     │ ◈ SPARE  │  .
+      .  *      .   *  │  CYCLES  │
+  *      .    .        ╰──────────╯   *
+     .      *     .         .
+			</pre>
+		</div>
+	</div>
+
+	<div class="experiment">
+		<div class="label">4. Parallax Layers</div>
+		<div class="ascii-container exp-parallax">
+			<pre class="ascii-layer far">
+░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+			</pre>
+			<pre class="ascii-layer mid">
+▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
+▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
+			</pre>
+			<pre class="ascii-layer base">
+         ╱╲
+        ╱  ╲
+       ╱ ◈◈ ╲     SPARE CYCLES
+      ╱______╲    ═══════════════
+     ╱        ╲   thoughts from the edge
+			</pre>
+		</div>
+	</div>
+
+	<div class="experiment">
+		<div class="label">5. Anaglyph 3D (red/cyan glasses)</div>
+		<div class="ascii-container exp-anaglyph">
+			<pre class="ascii-layer cyan">
+┌─────────────────────────────┐
+│                             │
+│    S P A R E   C Y C L E S  │
+│                             │
+│    ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄    │
+│    █░░░░░░░░░░░░░░░░░░█    │
+│    █░░▀▀▀▀▀▀▀▀▀▀▀▀▀░░░█    │
+│    █░░░░░░░░░░░░░░░░░░█    │
+│    ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀    │
+│                             │
+└─────────────────────────────┘
+			</pre>
+			<pre class="ascii-layer base">
+┌─────────────────────────────┐
+│                             │
+│    S P A R E   C Y C L E S  │
+│                             │
+│    ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄    │
+│    █░░░░░░░░░░░░░░░░░░█    │
+│    █░░▀▀▀▀▀▀▀▀▀▀▀▀▀░░░█    │
+│    █░░░░░░░░░░░░░░░░░░█    │
+│    ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀    │
+│                             │
+└─────────────────────────────┘
+			</pre>
+		</div>
+	</div>
+
+</body>
+</html>
