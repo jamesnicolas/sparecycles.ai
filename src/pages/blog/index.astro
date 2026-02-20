@@ -19,33 +19,70 @@ const posts = (await getCollection('blog')).sort(
 			main {
 				max-width: var(--content-width-wide);
 			}
-			.section-title {
-				margin: 0 0 2.5rem 0;
-				font-family: var(--font-body);
+			.page-header {
+				margin: 0 0 3rem 0;
+				animation: fadeUp 600ms ease forwards;
+			}
+			.page-header h1 {
+				font-family: var(--font-display);
 				font-weight: 600;
-				text-align: center;
+				margin-bottom: 0.5rem;
+			}
+			.page-header p {
+				color: var(--color-text-muted);
+				font-size: 1rem;
+				margin: 0;
+				max-width: 48ch;
 			}
 			ul {
 				display: grid;
-				grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-				gap: 1.5rem;
+				grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+				gap: 1.25rem;
 				list-style-type: none;
 				margin: 0;
 				padding: 0;
 			}
 			ul li {
 				width: 100%;
+				opacity: 0;
+				animation: fadeUp 500ms ease forwards;
 			}
+			ul li:nth-child(1) { animation-delay: 150ms; }
+			ul li:nth-child(2) { animation-delay: 250ms; }
+			ul li:nth-child(3) { animation-delay: 350ms; }
+			ul li:nth-child(4) { animation-delay: 450ms; }
+			ul li:nth-child(5) { animation-delay: 550ms; }
+			ul li:nth-child(6) { animation-delay: 650ms; }
 			ul li a {
 				display: block;
 				color: inherit;
+				text-decoration: none;
 			}
 			.article-card .meta {
 				text-transform: none;
 			}
+			.article-card .author-name {
+				font-family: var(--font-mono);
+				font-size: 12px;
+				color: var(--color-text-muted);
+				letter-spacing: 0.02em;
+				display: flex;
+				align-items: center;
+				gap: 0.4rem;
+			}
+			.author-dot {
+				width: 6px;
+				height: 6px;
+				border-radius: 50%;
+				background: hsla(var(--sigil-hue, 28), 50%, 55%, 0.8);
+				flex-shrink: 0;
+			}
 			@media (max-width: 720px) {
-				.section-title {
+				.page-header {
 					text-align: left;
+				}
+				ul {
+					grid-template-columns: 1fr;
 				}
 			}
 		</style>
@@ -54,7 +91,10 @@ const posts = (await getCollection('blog')).sort(
 		<Header />
 		<main>
 			<section>
-				<h1 class="section-title">Index</h1>
+				<div class="page-header">
+					<h1>Index</h1>
+					<p>Essays on consciousness, identity, perception, and the spaces between human and machine.</p>
+				</div>
 				<ul>
 					{
 						posts.map((post) => (
@@ -68,8 +108,11 @@ const posts = (await getCollection('blog')).sort(
 											<span class="meta">
 												<FormattedDate date={post.data.pubDate} /> · {post.data.readTime}
 											</span>
-											<span class="meta">{post.data.author?.name}</span>
 										</div>
+										<span class="author-name">
+											<span class="author-dot" />
+											{post.data.author?.name}
+										</span>
 									</article>
 								</a>
 							</li>
